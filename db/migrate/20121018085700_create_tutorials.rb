@@ -3,6 +3,7 @@ class CreateTutorials < ActiveRecord::Migration
     create_table :tutorials do |t|
       t.string :name
       t.string :link
+      t.integer :cached_rating
 
       t.timestamps
     end
