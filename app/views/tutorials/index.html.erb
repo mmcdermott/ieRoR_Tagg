@@ -5,36 +5,38 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th><%= model_class.human_attribute_name(:id) %></th>
       <th><%= model_class.human_attribute_name(:name) %></th>
       <th><%= model_class.human_attribute_name(:link) %></th>
-      <th><%= model_class.human_attribute_name(:cached_rating) %></th>
-      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th>Rating</th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
   <tbody>
     <% @tutorials.each do |tutorial| %>
       <tr>
-        <td><%= link_to tutorial.id, tutorial_path(tutorial) %></td>
-        <td><%= tutorial.name %></td>
+        <td><%= link_to tutorial.name, tutorial %></td>
         <td><%= tutorial.link %></td>
         <td><%= tutorial.cached_rating %></td>
-        <td><%=l tutorial.created_at %></td>
         <td>
-          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+          <% if user_signed_in? and current_user == tutorial.user %>
+            <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_tutorial_path(tutorial), :class => 'btn btn-mini' %>
-          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+            <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
                       tutorial_path(tutorial),
                       :method => :delete,
                       :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
                       :class => 'btn btn-mini btn-danger' %>
+          <% elsif user_signed_in? %>
+            <%= link_to image_tag('up_arrow.png'), tutorial_up_path(tutorial.id), method: 'post' %>
+            <%= link_to image_tag('down_arrow.png'), tutorial_down_path(tutorial.id), method: 'post' %>
+          <% end %>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<%= link_to t('.new', :default => t("helpers.links.new")),
+<% if user_signed_in? %>
+  <%= link_to t('.new', :default => t("helpers.links.new")),
             new_tutorial_path,
             :class => 'btn btn-primary' %>
+<% end %>

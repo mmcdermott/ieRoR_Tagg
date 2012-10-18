@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121018162418) do
+ActiveRecord::Schema.define(:version => 20121018172317) do
 
   create_table "rankings", :force => true do |t|
     t.integer  "user_id"
@@ -24,9 +24,10 @@ ActiveRecord::Schema.define(:version => 20121018162418) do
   create_table "tutorials", :force => true do |t|
     t.string   "name"
     t.string   "link"
-    t.integer  "cached_rating"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.integer  "cached_rating", :default => 0
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
+    t.integer  "user_id"
   end
 
   create_table "users", :force => true do |t|

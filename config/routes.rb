@@ -1,10 +1,12 @@
 IeRoRTagg::Application.routes.draw do
   devise_for :users
-
-  resources :users do 
-    resources :tutorials
+  
+  resources :tutorials do
+    post 'up' => 'rankings#up', as: 'up'
+    post 'down' => 'rankings#down', as: 'down'
   end
-  root to: 'tutorials#all'
+  resources :users
+  root to: 'tutorials#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
